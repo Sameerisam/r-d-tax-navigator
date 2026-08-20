@@ -9,8 +9,21 @@ import {
 } from "@tanstack/react-router";
 import { useEffect, type ReactNode } from "react";
 
-import appCss from "../styles.css?url";
+import { HelpWidget } from "@/components/site/HelpWidget";
+import { Ticker } from "@/components/site/Ticker";
+import { ToastHost } from "@/components/site/ToastHost";
+import appCssUrl from "../styles.css?url";
+import appCssText from "../styles.css?inline";
+import fraunces from "../assets/fonts/fraunces-variable.woff2?url";
+import manrope from "../assets/fonts/manrope-variable.woff2?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+
+// In production the stylesheet is inlined: fetching it costs a round trip that
+// blocks the first paint, and it is only ~15 kB gzipped. Development keeps the
+// linked stylesheet so style edits still hot-reload. Both guards are static, so
+// neither the URL nor the stylesheet text ends up in the client bundle.
+const inlineCss = import.meta.env.PROD && import.meta.env.SSR ? appCssText : "";
+const devStylesheet = import.meta.env.DEV ? [{ rel: "stylesheet", href: appCssUrl }] : [];
 
 function NotFoundComponent() {
   return (
@@ -77,21 +90,44 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "BLMC | R&D Tax Credit & Audit Specialists Philippines" },
+      {
+        name: "description",
+        content:
+          "BLMC provides R&D tax credit documentation and audit support for Philippine businesses under the CREATE Act — BOI, PEZA, and BIR-aligned claim preparation.",
+      },
+      { name: "author", content: "BLMC" },
+      {
+        property: "og:title",
+        content: "BLMC | R&D Tax Credit & Audit Specialists Philippines",
+      },
+      {
+        property: "og:description",
+        content:
+          "BLMC provides R&D tax credit documentation and audit support for Philippine businesses under the CREATE Act — BOI, PEZA, and BIR-aligned claim preparation.",
+      },
       { property: "og:type", content: "website" },
+      { property: "og:site_name", content: "BLMC" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:site", content: "@Lovable" },
     ],
     links: [
+      ...devStylesheet,
+      { rel: "icon", href: "/logo-mark.svg", type: "image/svg+xml" },
+      { rel: "icon", href: "/favicon.ico", type: "image/x-icon", sizes: "16x16 32x32 48x48" },
       {
-        rel: "stylesheet",
-        href: appCss,
+        rel: "preload",
+        as: "font",
+        type: "font/woff2",
+        href: manrope,
+        crossOrigin: "anonymous",
       },
-      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      {
+        rel: "preload",
+        as: "font",
+        type: "font/woff2",
+        href: fraunces,
+        crossOrigin: "anonymous",
+      },
     ],
   }),
   shellComponent: RootShell,
@@ -102,9 +138,15 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en-PH">
       <head>
         <HeadContent />
+        <style dangerouslySetInnerHTML={{ __html: inlineCss }} />
+        <noscript>
+          {/* Scroll reveals start hidden and are shown by an observer, so without
+              scripting the content would never appear. */}
+          <style>{".reveal{opacity:1;transform:none}"}</style>
+        </noscript>
       </head>
       <body>
         {children}
@@ -119,8 +161,17 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
+      <a
+        href="#main"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-9 focus:left-3 focus:z-60 focus:rounded-lg focus:bg-accent focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-accent-foreground"
+      >
+        Skip to content
+      </a>
+      <Ticker />
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <Outlet />
+      <HelpWidget />
+      <ToastHost />
     </QueryClientProvider>
   );
 }

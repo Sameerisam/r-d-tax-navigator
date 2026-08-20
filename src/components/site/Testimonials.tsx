@@ -19,7 +19,7 @@ export function Testimonials() {
                 <blockquote className="mt-4 flex-1 text-sm leading-relaxed text-card-foreground">
                   “{t.quote}”
                 </blockquote>
-                <div className="mt-5 flex gap-0.5" aria-label="5 out of 5 stars">
+                <div className="mt-5 flex gap-0.5" role="img" aria-label="5 out of 5 stars">
                   {Array.from({ length: 5 }).map((_, i) => (
                     <Star key={i} className="h-3.5 w-3.5 fill-accent text-accent" aria-hidden="true" />
                   ))}

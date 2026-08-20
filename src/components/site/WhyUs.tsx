@@ -1,12 +1,11 @@
-import { useEffect, useRef, useState } from "react";
-import { useInView } from "motion/react";
+import { useEffect, useState } from "react";
 import { Check } from "lucide-react";
+import { useInViewOnce } from "@/hooks/use-in-view";
 import { CAPABILITIES, STATS } from "./data";
 import { Reveal, SectionHeading, Stagger, StaggerItem } from "./Reveal";
 
 function Counter({ value, suffix }: { value: number; suffix: string }) {
-  const ref = useRef<HTMLSpanElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-60px" });
+  const { ref, inView } = useInViewOnce<HTMLSpanElement>("-60px 0px");
   const [display, setDisplay] = useState(0);
 
   useEffect(() => {
@@ -38,20 +37,21 @@ export function WhyUs() {
         <div className="grid gap-14 lg:grid-cols-2 lg:items-start">
           <div>
             <SectionHeading
-              eyebrow="Why choose us"
-              title="Specialist attention, not a shared support queue"
+              eyebrow="Why choose BLMC"
+              title="Specialist attention for every R&D claim file"
               align="left"
             />
             <Reveal delay={0.1}>
               <div className="mt-6 space-y-4 text-base leading-relaxed text-muted-foreground">
                 <p>
-                  You work directly with the person doing the work. Every claim file is handled
-                  with the same discipline that claims processing, auditing, and compliance
-                  coordination demand.
+                  You work directly with the specialist preparing your documentation. Every R&amp;D
+                  tax credit file is handled with the same discipline claims processing, auditing,
+                  and compliance coordination demand.
                 </p>
                 <p>
-                  The result is documentation your accountant can sign off on with confidence, and
-                  a process that keeps moving without daily chasing from your side.
+                  The result is CREATE Act–aligned documentation your accountant can sign off on
+                  with confidence — and a process that keeps moving without daily chasing from your
+                  side.
                 </p>
               </div>
             </Reveal>

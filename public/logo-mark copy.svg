@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="BLMC">
+  <rect width="64" height="64" rx="14" fill="#0B1E3D"/>
+  <path d="M20 17h13.2c5.9 0 9.5 2.9 9.5 7.6 0 3.1-1.7 5.4-4.6 6.4v.2c3.6.8 5.8 3.4 5.8 7 0 5.3-4 8.8-10.4 8.8H20V17Zm6.6 5.2v7.6h5c3 0 4.7-1.4 4.7-3.9 0-2.4-1.6-3.7-4.6-3.7h-5.1Zm0 12.4v8.2h5.8c3.4 0 5.2-1.5 5.2-4.1 0-2.6-1.9-4.1-5.4-4.1h-5.6Z" fill="#F7F8FA"/>
+  <circle cx="48" cy="45" r="5" fill="#0F9D6B"/>
+</svg>

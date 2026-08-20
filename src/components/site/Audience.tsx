@@ -7,8 +7,8 @@ export function Audience() {
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
         <SectionHeading
           eyebrow="Who this is for"
-          title="Built around how you already work"
-          intro="Three ways this support slots into an existing team without disrupting it."
+          title="R&D claim support for owners, CPAs, and consultants"
+          intro="Three ways BLMC slots into how Philippine businesses and advisors already work — without disrupting delivery."
         />
         <Stagger className="mt-14 grid gap-5 md:grid-cols-3">
           {AUDIENCES.map(({ icon: Icon, title, body }) => (

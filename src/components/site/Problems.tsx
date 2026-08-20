@@ -7,9 +7,9 @@ export function Problems() {
       <div className="absolute inset-0 bg-grid-soft opacity-60" aria-hidden="true" />
       <div className="relative mx-auto max-w-6xl px-5 sm:px-8">
         <SectionHeading
-          eyebrow="The reality"
-          title="Why R&D claims are hard to get right"
-          intro="Most claims fail on evidence, not on merit. These are the four places momentum is usually lost."
+          eyebrow="Claim challenges"
+          title="Why claiming R&D tax credits is complex"
+          intro="Preparing a Philippine R&D tax incentive claim is documentation-heavy. Most claims stall on evidence and coordination — not on whether the work was innovative."
         />
         <Stagger className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {PAIN_POINTS.map(({ icon: Icon, title, body }) => (

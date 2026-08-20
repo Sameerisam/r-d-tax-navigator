@@ -10,33 +10,193 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as DeadlinesRouteImport } from './routes/deadlines'
+import { Route as GlossaryRouteImport } from './routes/glossary'
+import { Route as PrivacyRouteImport } from './routes/privacy'
+import { Route as TermsRouteImport } from './routes/terms'
+import { Route as AgenciesIndexRouteImport } from './routes/agencies/index'
+import { Route as AgenciesSlugRouteImport } from './routes/agencies/$slug'
+import { Route as GuidesIndexRouteImport } from './routes/guides/index'
+import { Route as GuidesSlugRouteImport } from './routes/guides/$slug'
+import { Route as IncentivesIndexRouteImport } from './routes/incentives/index'
+import { Route as IncentivesSlugRouteImport } from './routes/incentives/$slug'
+import { Route as IndustriesIndexRouteImport } from './routes/industries/index'
+import { Route as IndustriesSlugRouteImport } from './routes/industries/$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DeadlinesRoute = DeadlinesRouteImport.update({
+  id: '/deadlines',
+  path: '/deadlines',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GlossaryRoute = GlossaryRouteImport.update({
+  id: '/glossary',
+  path: '/glossary',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TermsRoute = TermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AgenciesIndexRoute = AgenciesIndexRouteImport.update({
+  id: '/agencies/',
+  path: '/agencies/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AgenciesSlugRoute = AgenciesSlugRouteImport.update({
+  id: '/agencies/$slug',
+  path: '/agencies/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GuidesIndexRoute = GuidesIndexRouteImport.update({
+  id: '/guides/',
+  path: '/guides/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GuidesSlugRoute = GuidesSlugRouteImport.update({
+  id: '/guides/$slug',
+  path: '/guides/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IncentivesIndexRoute = IncentivesIndexRouteImport.update({
+  id: '/incentives/',
+  path: '/incentives/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IncentivesSlugRoute = IncentivesSlugRouteImport.update({
+  id: '/incentives/$slug',
+  path: '/incentives/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IndustriesIndexRoute = IndustriesIndexRouteImport.update({
+  id: '/industries/',
+  path: '/industries/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IndustriesSlugRoute = IndustriesSlugRouteImport.update({
+  id: '/industries/$slug',
+  path: '/industries/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/deadlines': typeof DeadlinesRoute
+  '/glossary': typeof GlossaryRoute
+  '/privacy': typeof PrivacyRoute
+  '/terms': typeof TermsRoute
+  '/agencies/$slug': typeof AgenciesSlugRoute
+  '/guides/$slug': typeof GuidesSlugRoute
+  '/incentives/$slug': typeof IncentivesSlugRoute
+  '/industries/$slug': typeof IndustriesSlugRoute
+  '/agencies/': typeof AgenciesIndexRoute
+  '/guides/': typeof GuidesIndexRoute
+  '/incentives/': typeof IncentivesIndexRoute
+  '/industries/': typeof IndustriesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/deadlines': typeof DeadlinesRoute
+  '/glossary': typeof GlossaryRoute
+  '/privacy': typeof PrivacyRoute
+  '/terms': typeof TermsRoute
+  '/agencies/$slug': typeof AgenciesSlugRoute
+  '/guides/$slug': typeof GuidesSlugRoute
+  '/incentives/$slug': typeof IncentivesSlugRoute
+  '/industries/$slug': typeof IndustriesSlugRoute
+  '/agencies': typeof AgenciesIndexRoute
+  '/guides': typeof GuidesIndexRoute
+  '/incentives': typeof IncentivesIndexRoute
+  '/industries': typeof IndustriesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/deadlines': typeof DeadlinesRoute
+  '/glossary': typeof GlossaryRoute
+  '/privacy': typeof PrivacyRoute
+  '/terms': typeof TermsRoute
+  '/agencies/$slug': typeof AgenciesSlugRoute
+  '/guides/$slug': typeof GuidesSlugRoute
+  '/incentives/$slug': typeof IncentivesSlugRoute
+  '/industries/$slug': typeof IndustriesSlugRoute
+  '/agencies/': typeof AgenciesIndexRoute
+  '/guides/': typeof GuidesIndexRoute
+  '/incentives/': typeof IncentivesIndexRoute
+  '/industries/': typeof IndustriesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/deadlines'
+    | '/glossary'
+    | '/privacy'
+    | '/terms'
+    | '/agencies/$slug'
+    | '/guides/$slug'
+    | '/incentives/$slug'
+    | '/industries/$slug'
+    | '/agencies/'
+    | '/guides/'
+    | '/incentives/'
+    | '/industries/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/deadlines'
+    | '/glossary'
+    | '/privacy'
+    | '/terms'
+    | '/agencies/$slug'
+    | '/guides/$slug'
+    | '/incentives/$slug'
+    | '/industries/$slug'
+    | '/agencies'
+    | '/guides'
+    | '/incentives'
+    | '/industries'
+  id:
+    | '__root__'
+    | '/'
+    | '/deadlines'
+    | '/glossary'
+    | '/privacy'
+    | '/terms'
+    | '/agencies/$slug'
+    | '/guides/$slug'
+    | '/incentives/$slug'
+    | '/industries/$slug'
+    | '/agencies/'
+    | '/guides/'
+    | '/incentives/'
+    | '/industries/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  DeadlinesRoute: typeof DeadlinesRoute
+  GlossaryRoute: typeof GlossaryRoute
+  PrivacyRoute: typeof PrivacyRoute
+  TermsRoute: typeof TermsRoute
+  AgenciesSlugRoute: typeof AgenciesSlugRoute
+  GuidesSlugRoute: typeof GuidesSlugRoute
+  IncentivesSlugRoute: typeof IncentivesSlugRoute
+  IndustriesSlugRoute: typeof IndustriesSlugRoute
+  AgenciesIndexRoute: typeof AgenciesIndexRoute
+  GuidesIndexRoute: typeof GuidesIndexRoute
+  IncentivesIndexRoute: typeof IncentivesIndexRoute
+  IndustriesIndexRoute: typeof IndustriesIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +208,107 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/deadlines': {
+      id: '/deadlines'
+      path: '/deadlines'
+      fullPath: '/deadlines'
+      preLoaderRoute: typeof DeadlinesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/glossary': {
+      id: '/glossary'
+      path: '/glossary'
+      fullPath: '/glossary'
+      preLoaderRoute: typeof GlossaryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/terms': {
+      id: '/terms'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof TermsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/agencies/': {
+      id: '/agencies/'
+      path: '/agencies'
+      fullPath: '/agencies/'
+      preLoaderRoute: typeof AgenciesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/agencies/$slug': {
+      id: '/agencies/$slug'
+      path: '/agencies/$slug'
+      fullPath: '/agencies/$slug'
+      preLoaderRoute: typeof AgenciesSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/guides/': {
+      id: '/guides/'
+      path: '/guides'
+      fullPath: '/guides/'
+      preLoaderRoute: typeof GuidesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/guides/$slug': {
+      id: '/guides/$slug'
+      path: '/guides/$slug'
+      fullPath: '/guides/$slug'
+      preLoaderRoute: typeof GuidesSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/incentives/': {
+      id: '/incentives/'
+      path: '/incentives'
+      fullPath: '/incentives/'
+      preLoaderRoute: typeof IncentivesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/incentives/$slug': {
+      id: '/incentives/$slug'
+      path: '/incentives/$slug'
+      fullPath: '/incentives/$slug'
+      preLoaderRoute: typeof IncentivesSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/industries/': {
+      id: '/industries/'
+      path: '/industries'
+      fullPath: '/industries/'
+      preLoaderRoute: typeof IndustriesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/industries/$slug': {
+      id: '/industries/$slug'
+      path: '/industries/$slug'
+      fullPath: '/industries/$slug'
+      preLoaderRoute: typeof IndustriesSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  DeadlinesRoute: DeadlinesRoute,
+  GlossaryRoute: GlossaryRoute,
+  PrivacyRoute: PrivacyRoute,
+  TermsRoute: TermsRoute,
+  AgenciesSlugRoute: AgenciesSlugRoute,
+  GuidesSlugRoute: GuidesSlugRoute,
+  IncentivesSlugRoute: IncentivesSlugRoute,
+  IndustriesSlugRoute: IndustriesSlugRoute,
+  AgenciesIndexRoute: AgenciesIndexRoute,
+  GuidesIndexRoute: GuidesIndexRoute,
+  IncentivesIndexRoute: IncentivesIndexRoute,
+  IndustriesIndexRoute: IndustriesIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

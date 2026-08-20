@@ -1,3 +1,4 @@
+@import "./fonts.css";
 @import "tailwindcss" source(none);
 @source "../src";
 @import "tw-animate-css";
@@ -30,6 +31,7 @@
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
   --color-accent-soft: var(--accent-soft);
+  --color-accent-on-navy: var(--accent-on-navy);
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
   --color-border: var(--border);
@@ -69,10 +71,14 @@
   --muted: oklch(0.955 0.006 106);
   --muted-foreground: oklch(0.53 0.026 258);
 
-  /* emerald accent */
-  --accent: oklch(0.61 0.132 163);
+  /* Emerald accent. No single lightness clears WCAG AA against both the light
+     canvas and the navy sections, so there are two: the default is dark enough
+     to be readable on light surfaces and under white button text, while
+     --accent-on-navy stays bright for use on the navy panels. */
+  --accent: oklch(0.52 0.11 163);
   --accent-foreground: oklch(0.99 0.01 163);
   --accent-soft: oklch(0.94 0.036 163);
+  --accent-on-navy: oklch(0.68 0.13 163);
 
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(0.984 0.003 247.858);
@@ -159,4 +165,97 @@
 
 @utility shadow-lift {
   box-shadow: var(--shadow-lift);
+}
+
+@utility reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+@utility reveal-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Long marketing pages spend most of their main-thread budget styling and
+   laying out sections that are far offscreen. Skipping that work until a
+   section approaches the viewport is the single biggest saving here; the
+   intrinsic size keeps the scrollbar stable so nothing shifts. */
+@utility defer-offscreen {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 700px;
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@utility animate-fade-in-up {
+  animation: fade-in-up 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes pop-in {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+@utility animate-pop-in {
+  animation: pop-in 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+@keyframes float-y {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+@utility animate-float {
+  animation: float-y 7s ease-in-out infinite;
+}
+
+@keyframes ticker-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@utility animate-ticker {
+  animation: ticker-scroll 42s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-ticker,
+  .animate-float,
+  .animate-fade-in-up,
+  .animate-pop-in {
+    animation: none;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
 }

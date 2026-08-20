@@ -13,8 +13,8 @@ export function Faq() {
       <div className="mx-auto max-w-3xl px-5 sm:px-8">
         <SectionHeading
           eyebrow="FAQ"
-          title="Questions about CREATE Act R&D claims"
-          intro="Straight answers to what business owners and accountants ask first."
+          title="R&D tax credit questions for Philippine businesses"
+          intro="Straight answers on CREATE Act incentives, BOI/PEZA eligibility, BIR documentation, and how BLMC supports your claim."
         />
         <Reveal delay={0.1}>
           <Accordion type="single" collapsible className="mt-12 space-y-3">

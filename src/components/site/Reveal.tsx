@@ -1,10 +1,9 @@
-import { motion, type Variants } from "motion/react";
-import type { ReactNode } from "react";
+import { Children, cloneElement, isValidElement, type ReactNode } from "react";
+import { useInViewOnce } from "@/hooks/use-in-view";
 
-const variants: Variants = {
-  hidden: { opacity: 0, y: 24 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } },
-};
+function revealClass(visible: boolean, className?: string) {
+  return `reveal${visible ? " reveal-visible" : ""}${className ? ` ${className}` : ""}`;
+}
 
 export function Reveal({
   children,
@@ -15,51 +14,51 @@ export function Reveal({
   delay?: number;
   className?: string;
 }) {
+  const { ref, inView } = useInViewOnce<HTMLDivElement>();
+
   return (
-    <motion.div
-      className={className}
-      variants={variants}
-      initial="hidden"
-      whileInView="show"
-      viewport={{ once: true, margin: "-80px" }}
-      transition={{ delay }}
+    <div
+      ref={ref}
+      className={revealClass(inView, className)}
+      style={{ "--reveal-delay": `${delay * 1000}ms` } as React.CSSProperties}
     >
       {children}
-    </motion.div>
+    </div>
   );
 }
 
-export function Stagger({
-  children,
-  className,
-}: {
-  children: ReactNode;
-  className?: string;
-}) {
+export function Stagger({ children, className }: { children: ReactNode; className?: string }) {
+  const { ref, inView } = useInViewOnce<HTMLDivElement>("-60px 0px");
+
+  // The cascade is driven from the container so the whole group shares one
+  // observer and each item only needs its ordinal to compute a delay.
+  let ordinal = 0;
+
   return (
-    <motion.div
-      className={className}
-      initial="hidden"
-      whileInView="show"
-      viewport={{ once: true, margin: "-60px" }}
-      variants={{ show: { transition: { staggerChildren: 0.1 } } }}
-    >
-      {children}
-    </motion.div>
+    <div ref={ref} className={className}>
+      {Children.map(children, (child) => {
+        if (!isValidElement<StaggerItemProps>(child) || child.type !== StaggerItem) return child;
+        return cloneElement(child, { visible: inView, delay: ordinal++ * 0.1 });
+      })}
+    </div>
   );
 }
 
-export function StaggerItem({
-  children,
-  className,
-}: {
+type StaggerItemProps = {
   children: ReactNode;
   className?: string;
-}) {
+  visible?: boolean;
+  delay?: number;
+};
+
+export function StaggerItem({ children, className, visible = true, delay = 0 }: StaggerItemProps) {
   return (
-    <motion.div className={className} variants={variants}>
+    <div
+      className={revealClass(visible, className)}
+      style={{ "--reveal-delay": `${delay * 1000}ms` } as React.CSSProperties}
+    >
       {children}
-    </motion.div>
+    </div>
   );
 }
 
@@ -78,13 +77,11 @@ export function SectionHeading({
 }) {
   return (
     <Reveal
-      className={
-        align === "center" ? "mx-auto max-w-2xl text-center" : "max-w-2xl text-left"
-      }
+      className={align === "center" ? "mx-auto max-w-2xl text-center" : "max-w-2xl text-left"}
     >
       <p
         className={`text-xs font-semibold uppercase tracking-[0.18em] ${
-          tone === "dark" ? "text-accent" : "text-accent"
+          tone === "dark" ? "text-accent-on-navy" : "text-accent"
         }`}
       >
         {eyebrow}
