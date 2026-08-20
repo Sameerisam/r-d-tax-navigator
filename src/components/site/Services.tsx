@@ -4,9 +4,9 @@ import { SERVICE_GROUPS } from "./data";
 import { SectionHeading, Stagger, StaggerItem } from "./Reveal";
 
 export function Services() {
-  const [activeTab, setActiveTab] = useState(SERVICE_GROUPS[0].id);
+  const [activeTab, setActiveTab] = useState<string>(SERVICE_GROUPS[0]!.id);
   const visible =
-    SERVICE_GROUPS.find((g) => g.id === activeTab)?.services ?? SERVICE_GROUPS[0].services;
+    SERVICE_GROUPS.find((g) => g.id === activeTab)?.services ?? SERVICE_GROUPS[0]!.services;
 
   return (
     <section id="services" className="bg-secondary py-24">
