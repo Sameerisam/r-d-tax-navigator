@@ -12,18 +12,10 @@ import { useEffect, type ReactNode } from "react";
 import { HelpWidget } from "@/components/site/HelpWidget";
 import { Ticker } from "@/components/site/Ticker";
 import { ToastHost } from "@/components/site/ToastHost";
-import appCssUrl from "../styles.css?url";
-import appCssText from "../styles.css?inline";
+import "../styles.css";
 import fraunces from "../assets/fonts/fraunces-variable.woff2?url";
 import manrope from "../assets/fonts/manrope-variable.woff2?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
-
-// In production the stylesheet is inlined: fetching it costs a round trip that
-// blocks the first paint, and it is only ~15 kB gzipped. Development keeps the
-// linked stylesheet so style edits still hot-reload. Both guards are static, so
-// neither the URL nor the stylesheet text ends up in the client bundle.
-const inlineCss = import.meta.env.PROD && import.meta.env.SSR ? appCssText : "";
-const devStylesheet = import.meta.env.DEV ? [{ rel: "stylesheet", href: appCssUrl }] : [];
 
 function NotFoundComponent() {
   return (
@@ -111,7 +103,6 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [
-      ...devStylesheet,
       { rel: "icon", href: "/logo-mark.svg", type: "image/svg+xml" },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon", sizes: "16x16 32x32 48x48" },
       {
@@ -141,7 +132,6 @@ function RootShell({ children }: { children: ReactNode }) {
     <html lang="en-PH">
       <head>
         <HeadContent />
-        <style dangerouslySetInnerHTML={{ __html: inlineCss }} />
         <noscript>
           {/* Scroll reveals start hidden and are shown by an observer, so without
               scripting the content would never appear. */}

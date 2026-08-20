@@ -10,6 +10,12 @@ export default defineConfig({
   tanstackStart: {
     // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
     // nitro/vite builds from this
-    server: { entry: "server" },
+    server: {
+      entry: "server",
+      // Inline matched-route CSS into the SSR HTML so the first paint is styled
+      // without a separate stylesheet round trip. Start keeps this tag through
+      // hydration (unlike a manual PROD && SSR <style> that the client wipes).
+      build: { inlineCss: true },
+    },
   },
 });
