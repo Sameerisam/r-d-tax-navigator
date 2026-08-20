@@ -42,6 +42,7 @@ export function Contact() {
 
     setSent(true);
     setValues(empty);
+    window.open(BRAND.bookingUrl, "_blank", "noopener,noreferrer");
     void confirmSubmission();
   };
 
@@ -168,8 +169,10 @@ export function Contact() {
                       <p className="text-xs text-destructive">{errors.message}</p>
                     ) : null}
                   </div>
-                  <Button type="submit" variant="accent" size="xl" className="w-full">
-                    Book Free Consultation
+                  <Button variant="accent" size="xl" className="w-full" asChild>
+                    <a href={BRAND.bookingUrl} target="_blank" rel="noopener noreferrer">
+                      Book Free Consultation
+                    </a>
                   </Button>
                   <p className="text-center text-xs text-muted-foreground">
                     No obligation. Your details are never shared with third parties.

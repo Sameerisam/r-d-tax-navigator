@@ -29,7 +29,8 @@ export const BRAND = {
   phoneHref: "tel:+18009864725",
   email: "hello@blmc.com",
   location: "Philippines",
-  bookingUrl: "https://calendar.google.com/",
+  bookingUrl:
+    "https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ2w7qE5FNQMio5Pl2Tn03ShqL_TRu45q14ce1VVTAECFo0c05JXc7Iry0ctzwA92WhlaOQQ8r1R",
   url: "https://blmc.com",
   logo: "/logo-mark.svg",
   ogImage: "/og-image.jpg",
