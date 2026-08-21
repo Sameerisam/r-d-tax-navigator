@@ -1,11 +1,14 @@
 import { Link } from "@tanstack/react-router";
 import { ArrowRight, BookOpen, CalendarClock, Factory, Landmark, Library } from "lucide-react";
 import { SectionHeading, Stagger, StaggerItem } from "./Reveal";
-import {
-  DIRECTORY_STATS,
-  INCENTIVES,
-  LAST_REVIEWED_LABEL,
-} from "./resources";
+import { DIRECTORY_STATS, LAST_REVIEWED_LABEL } from "./directory-meta";
+
+/** Featured teaser — kept local so this section does not pull the full resources catalog. */
+const FEATURED_INCENTIVE = {
+  name: "Additional Deduction on Research and Development Expenses",
+  benefit: "Up to 100% additional deduction on qualified R&D expense",
+  slug: "additional-deduction-research-development",
+} as const;
 
 const cards = [
   {
@@ -57,8 +60,7 @@ export function Directory() {
 
         <p className="mt-6 text-center text-xs text-muted-foreground">
           {DIRECTORY_STATS.incentives} incentives indexed · {DIRECTORY_STATS.industries} industry
-          directories · {DIRECTORY_STATS.glossary} glossary terms · reviewed{" "}
-          {LAST_REVIEWED_LABEL}
+          directories · {DIRECTORY_STATS.glossary} glossary terms · reviewed {LAST_REVIEWED_LABEL}
         </p>
 
         <Stagger className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
@@ -90,11 +92,11 @@ export function Directory() {
             <div className="flex h-full flex-col rounded-2xl border border-primary/15 bg-primary p-7 shadow-soft">
               <h3 className="text-xl text-primary-foreground">Most viewed record</h3>
               <p className="mt-2.5 flex-1 text-sm leading-relaxed text-primary-foreground/70">
-                {INCENTIVES[0]!.name} — {INCENTIVES[0]!.benefit} under the enhanced deductions
-                regime.
+                {FEATURED_INCENTIVE.name} — {FEATURED_INCENTIVE.benefit} under the enhanced
+                deductions regime.
               </p>
               <Link
-                to={`/incentives/${INCENTIVES[0]!.slug}`}
+                to={`/incentives/${FEATURED_INCENTIVE.slug}`}
                 className="mt-5 inline-flex items-center gap-1.5 text-sm font-medium text-accent hover:opacity-80"
               >
                 Read the record

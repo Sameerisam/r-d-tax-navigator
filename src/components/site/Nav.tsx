@@ -1,9 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useId, useState } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
 import { Menu, X, Sparkle } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { BRAND, NAV_LINKS } from "./data";
+import { BRAND, NAV_LINKS } from "./brand";
 
 const bookingLinkProps = {
   href: BRAND.bookingUrl,
@@ -21,12 +20,23 @@ export function Nav() {
   const [activeHash, setActiveHash] = useState("");
   const [open, setOpen] = useState(false);
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const panelId = useId();
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
+    let frame = 0;
+    const onScroll = () => {
+      if (frame) return;
+      frame = requestAnimationFrame(() => {
+        frame = 0;
+        setScrolled(window.scrollY > 24);
+      });
+    };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      if (frame) cancelAnimationFrame(frame);
+    };
   }, []);
 
   useEffect(() => {
@@ -38,32 +48,55 @@ export function Nav() {
     }
 
     const ids = NAV_LINKS.filter((l) => isHashLink(l.href)).map((l) => l.href.split("#")[1]!);
+    const elements = ids
+      .map((id) => document.getElementById(id))
+      .filter((el): el is HTMLElement => Boolean(el));
 
-    const update = () => {
-      const marker = window.innerHeight * SECTION_MARKER;
-      let current = "";
+    if (!elements.length) return;
 
-      for (const id of ids) {
-        const el = document.getElementById(id);
-        if (!el) continue;
-        // Once a section's top has crossed the marker, it becomes the active
-        // tab. If none have yet (hero still in view), current stays empty.
-        if (el.getBoundingClientRect().top <= marker) current = `/#${id}`;
-      }
+    // IntersectionObserver with a thin "band" at SECTION_MARKER avoids
+    // getBoundingClientRect() on every scroll (forced reflow).
+    const top = -(SECTION_MARKER * 100);
+    const bottom = -(100 - SECTION_MARKER * 100);
+    const visible = new Set<string>();
 
-      setActiveHash(current);
-    };
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) visible.add(entry.target.id);
+          else visible.delete(entry.target.id);
+        }
 
-    update();
-    window.addEventListener("scroll", update, { passive: true });
-    window.addEventListener("resize", update);
-    window.addEventListener("hashchange", update);
-    return () => {
-      window.removeEventListener("scroll", update);
-      window.removeEventListener("resize", update);
-      window.removeEventListener("hashchange", update);
-    };
+        let current = "";
+        for (const id of ids) {
+          if (visible.has(id)) current = `/#${id}`;
+        }
+        setActiveHash(current);
+      },
+      {
+        root: null,
+        rootMargin: `${top}% 0px ${bottom}% 0px`,
+        threshold: 0,
+      },
+    );
+
+    for (const el of elements) observer.observe(el);
+    return () => observer.disconnect();
   }, [pathname]);
+
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = prev;
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [open]);
 
   const onNavy = !scrolled;
 
@@ -147,68 +180,84 @@ export function Nav() {
           </Button>
         </div>
 
-        <Sheet open={open} onOpenChange={setOpen}>
-          <SheetTrigger asChild>
-            <button
-              aria-label="Open menu"
-              className={`flex h-11 w-11 items-center justify-center rounded-lg lg:hidden ${
-                onNavy
-                  ? "text-primary-foreground hover:bg-primary-foreground/10"
-                  : "text-primary hover:bg-secondary"
-              }`}
-            >
-              <Menu className="h-5 w-5" aria-hidden="true" />
-            </button>
-          </SheetTrigger>
-          <SheetContent side="right" className="w-[86%] max-w-sm border-l-0 p-0 surface-navy">
-            <div className="flex h-full flex-col p-7">
-              <div className="flex items-center justify-between">
-                <div className="flex flex-col">
-                  <span className="font-serif text-lg text-primary-foreground">{BRAND.name}</span>
-                  <span className="text-[10px] text-primary-foreground/55">{BRAND.tagline}</span>
-                </div>
-                <button
-                  aria-label="Close menu"
-                  onClick={() => setOpen(false)}
-                  className="flex h-11 w-11 items-center justify-center rounded-lg text-primary-foreground/80 hover:bg-primary-foreground/10"
-                >
-                  <X className="h-5 w-5" aria-hidden="true" />
-                </button>
-              </div>
-              <div className="mt-10 flex flex-col gap-1">
-                {NAV_LINKS.map((link) =>
-                  isHashLink(link.href) ? (
-                    <a
-                      key={link.href}
-                      href={link.href}
-                      onClick={() => setOpen(false)}
-                      className="rounded-lg px-3 py-3.5 text-base font-medium text-primary-foreground/85 hover:bg-primary-foreground/10"
-                    >
-                      {link.label}
-                    </a>
-                  ) : (
-                    <Link
-                      key={link.href}
-                      to={link.href}
-                      onClick={() => setOpen(false)}
-                      className="rounded-lg px-3 py-3.5 text-base font-medium text-primary-foreground/85 hover:bg-primary-foreground/10"
-                    >
-                      {link.label}
-                    </Link>
-                  ),
-                )}
-              </div>
-              <div className="mt-auto">
-                <Button variant="accent" size="xl" className="w-full" asChild>
-                  <a {...bookingLinkProps} onClick={() => setOpen(false)}>
-                    Book Free Consultation
-                  </a>
-                </Button>
-              </div>
-            </div>
-          </SheetContent>
-        </Sheet>
+        <button
+          type="button"
+          aria-label="Open menu"
+          aria-expanded={open}
+          aria-controls={panelId}
+          onClick={() => setOpen(true)}
+          className={`flex h-11 w-11 items-center justify-center rounded-lg lg:hidden ${
+            onNavy
+              ? "text-primary-foreground hover:bg-primary-foreground/10"
+              : "text-primary hover:bg-secondary"
+          }`}
+        >
+          <Menu className="h-5 w-5" aria-hidden="true" />
+        </button>
       </nav>
+
+      {open ? (
+        <div className="fixed inset-0 z-50 lg:hidden" role="presentation">
+          <button
+            type="button"
+            aria-label="Close menu"
+            className="absolute inset-0 bg-black/70"
+            onClick={() => setOpen(false)}
+          />
+          <div
+            id={panelId}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Mobile navigation"
+            className="absolute inset-y-0 right-0 flex w-[86%] max-w-sm flex-col border-l-0 p-7 surface-navy shadow-lift"
+          >
+            <div className="flex items-center justify-between">
+              <div className="flex flex-col">
+                <span className="font-serif text-lg text-primary-foreground">{BRAND.name}</span>
+                <span className="text-[10px] text-primary-foreground/55">{BRAND.tagline}</span>
+              </div>
+              <button
+                type="button"
+                aria-label="Close menu"
+                onClick={() => setOpen(false)}
+                className="flex h-11 w-11 items-center justify-center rounded-lg text-primary-foreground/80 hover:bg-primary-foreground/10"
+              >
+                <X className="h-5 w-5" aria-hidden="true" />
+              </button>
+            </div>
+            <div className="mt-10 flex flex-col gap-1">
+              {NAV_LINKS.map((link) =>
+                isHashLink(link.href) ? (
+                  <a
+                    key={link.href}
+                    href={link.href}
+                    onClick={() => setOpen(false)}
+                    className="rounded-lg px-3 py-3.5 text-base font-medium text-primary-foreground/85 hover:bg-primary-foreground/10"
+                  >
+                    {link.label}
+                  </a>
+                ) : (
+                  <Link
+                    key={link.href}
+                    to={link.href}
+                    onClick={() => setOpen(false)}
+                    className="rounded-lg px-3 py-3.5 text-base font-medium text-primary-foreground/85 hover:bg-primary-foreground/10"
+                  >
+                    {link.label}
+                  </Link>
+                ),
+              )}
+            </div>
+            <div className="mt-auto">
+              <Button variant="accent" size="xl" className="w-full" asChild>
+                <a {...bookingLinkProps} onClick={() => setOpen(false)}>
+                  Book Free Consultation
+                </a>
+              </Button>
+            </div>
+          </div>
+        </div>
+      ) : null}
     </header>
   );
 }

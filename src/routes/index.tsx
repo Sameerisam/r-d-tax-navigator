@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 import { Audience } from "@/components/site/Audience";
 import { Contact } from "@/components/site/Contact";
-import { FAQS, SEO } from "@/components/site/data";
+import { FAQS, SEO } from "@/components/site/brand";
 import { Directory } from "@/components/site/Directory";
 import { Experience } from "@/components/site/Experience";
 import { Faq } from "@/components/site/Faq";
@@ -16,16 +16,31 @@ import { Services } from "@/components/site/Services";
 import { Testimonials } from "@/components/site/Testimonials";
 import { WhyUs } from "@/components/site/WhyUs";
 import { dataCatalogSchema, faqSchema, organizationSchema, pageMeta } from "@/lib/seo";
+import heroLcp from "@/assets/hero-illustration-768.webp?url";
 
 export const Route = createFileRoute("/")({
-  head: () =>
-    pageMeta({
+  head: () => {
+    const meta = pageMeta({
       title: SEO.title,
       description: SEO.description,
       path: "/",
       keywords: SEO.keywords,
       jsonLd: [organizationSchema(), dataCatalogSchema(), faqSchema(FAQS)],
-    }),
+    });
+    return {
+      ...meta,
+      links: [
+        ...(meta.links ?? []),
+        {
+          rel: "preload",
+          as: "image",
+          href: heroLcp,
+          type: "image/webp",
+          fetchPriority: "high",
+        },
+      ],
+    };
+  },
   component: Index,
 });
 

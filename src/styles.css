@@ -1,7 +1,16 @@
 @import "./fonts.css";
 @import "tailwindcss" source(none);
-@source "../src";
-@import "tw-animate-css";
+/* Only scan routes + site UI that ship. Scanning all of src/components/ui
+   pulls every unused shadcn variant into the critical CSS (~90KB+). */
+@source "../src/routes";
+@source "../src/components/site";
+@source "../src/components/ui/button.tsx";
+@source "../src/components/ui/accordion.tsx";
+@source "../src/components/ui/input.tsx";
+@source "../src/components/ui/label.tsx";
+@source "../src/components/ui/textarea.tsx";
+@source "../src/components/ui/sonner.tsx";
+@source "../src/lib";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -13,8 +22,9 @@
   --radius-2xl: calc(var(--radius) + 8px);
   --radius-3xl: calc(var(--radius) + 12px);
   --radius-4xl: calc(var(--radius) + 16px);
-  --font-serif: "Fraunces", ui-serif, Georgia, serif;
-  --font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Fraunces", ui-serif, Georgia, "Times New Roman", serif;
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
+    Arial, sans-serif;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -187,7 +197,8 @@
    intrinsic size keeps the scrollbar stable so nothing shifts. */
 @utility defer-offscreen {
   content-visibility: auto;
-  contain-intrinsic-size: auto 700px;
+  contain-intrinsic-size: auto 640px;
+  contain: layout style paint;
 }
 
 @keyframes fade-in-up {
@@ -245,11 +256,39 @@
   animation: ticker-scroll 42s linear infinite;
 }
 
+@keyframes accordion-down {
+  from {
+    height: 0;
+  }
+  to {
+    height: var(--radix-accordion-content-height);
+  }
+}
+
+@keyframes accordion-up {
+  from {
+    height: var(--radix-accordion-content-height);
+  }
+  to {
+    height: 0;
+  }
+}
+
+@utility animate-accordion-down {
+  animation: accordion-down 0.2s ease-out;
+}
+
+@utility animate-accordion-up {
+  animation: accordion-up 0.2s ease-out;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .animate-ticker,
   .animate-float,
   .animate-fade-in-up,
-  .animate-pop-in {
+  .animate-pop-in,
+  .animate-accordion-down,
+  .animate-accordion-up {
     animation: none;
   }
 

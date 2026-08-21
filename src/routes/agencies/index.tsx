@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { BRAND } from "@/components/site/data";
+import { BRAND } from "@/components/site/brand";
 import {
   DirectoryCard,
   PageHero,

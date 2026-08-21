@@ -1,4 +1,4 @@
-import { DIRECTORY_STATS, LAST_REVIEWED_LABEL } from "./resources";
+import { DIRECTORY_STATS, LAST_REVIEWED_LABEL } from "./directory-meta";
 
 const items = [
   `${DIRECTORY_STATS.incentives} indexed incentive records`,

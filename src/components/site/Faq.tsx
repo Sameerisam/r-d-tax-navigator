@@ -4,7 +4,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { FAQS } from "./data";
+import { FAQS } from "./brand";
 import { Reveal, SectionHeading } from "./Reveal";
 
 export function Faq() {

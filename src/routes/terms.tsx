@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { BRAND } from "@/components/site/data";
+import { BRAND } from "@/components/site/brand";
 import { PageHero, PageLayout, ProseSection } from "@/components/site/PageShell";
-import { LAST_REVIEWED_LABEL } from "@/components/site/resources";
+import { LAST_REVIEWED_LABEL } from "@/components/site/directory-meta";
 import { breadcrumbSchema, pageMeta } from "@/lib/seo";
 
 const path = "/terms";

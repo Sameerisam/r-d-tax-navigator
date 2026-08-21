@@ -5,8 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Footer } from "./Footer";
 import { Nav } from "./Nav";
 import { Reveal } from "./Reveal";
-import { BRAND } from "./data";
-import { LAST_REVIEWED_LABEL, REVIEW_CADENCE, SOURCE_DISCLAIMER } from "./resources";
+import { BRAND } from "./brand";
+import { LAST_REVIEWED_LABEL, REVIEW_CADENCE, SOURCE_DISCLAIMER } from "./directory-meta";
 
 export type Crumb = { label: string; to?: string };
 

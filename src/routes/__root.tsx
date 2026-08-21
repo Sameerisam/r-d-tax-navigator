@@ -1,20 +1,18 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
   Outlet,
   Link,
-  createRootRouteWithContext,
+  createRootRoute,
   useRouter,
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
 import { useEffect, type ReactNode } from "react";
 
-import { HelpWidget } from "@/components/site/HelpWidget";
-import { Ticker } from "@/components/site/Ticker";
+import { DeferredHelpWidget } from "@/components/site/DeferredHelpWidget";
+import { DeferredTicker } from "@/components/site/DeferredTicker";
 import { ToastHost } from "@/components/site/ToastHost";
 import "../styles.css";
 import fraunces from "../assets/fonts/fraunces-variable.woff2?url";
-import manrope from "../assets/fonts/manrope-variable.woff2?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 
 function NotFoundComponent() {
@@ -77,7 +75,7 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   );
 }
 
-export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
+export const Route = createRootRoute({
   head: () => ({
     meta: [
       { charSet: "utf-8" },
@@ -105,13 +103,6 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     links: [
       { rel: "icon", href: "/logo-mark.svg", type: "image/svg+xml" },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon", sizes: "16x16 32x32 48x48" },
-      {
-        rel: "preload",
-        as: "font",
-        type: "font/woff2",
-        href: manrope,
-        crossOrigin: "anonymous",
-      },
       {
         rel: "preload",
         as: "font",
@@ -147,21 +138,19 @@ function RootShell({ children }: { children: ReactNode }) {
 }
 
 function RootComponent() {
-  const { queryClient } = Route.useRouteContext();
-
   return (
-    <QueryClientProvider client={queryClient}>
+    <>
       <a
         href="#main"
         className="sr-only focus:not-sr-only focus:fixed focus:top-9 focus:left-3 focus:z-60 focus:rounded-lg focus:bg-accent focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-accent-foreground"
       >
         Skip to content
       </a>
-      <Ticker />
+      <DeferredTicker />
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <Outlet />
-      <HelpWidget />
+      <DeferredHelpWidget />
       <ToastHost />
-    </QueryClientProvider>
+    </>
   );
 }

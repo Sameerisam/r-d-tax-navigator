@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Check } from "lucide-react";
 import { useInViewOnce } from "@/hooks/use-in-view";
-import { CAPABILITIES, STATS } from "./data";
+import { CAPABILITIES, STATS } from "./brand";
 import { Reveal, SectionHeading, Stagger, StaggerItem } from "./Reveal";
 
 function Counter({ value, suffix }: { value: number; suffix: string }) {

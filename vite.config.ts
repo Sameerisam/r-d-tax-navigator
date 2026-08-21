@@ -7,14 +7,20 @@
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
 export default defineConfig({
+  // Avoid eager modulepreload of the whole router graph so CSS/HTML win the
+  // network race on slow mobile (modulepreload was competing with first paint).
+  vite: {
+    build: {
+      modulePreload: false,
+    },
+  },
   tanstackStart: {
     // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
     // nitro/vite builds from this
     server: {
       entry: "server",
-      // Inline matched-route CSS into the SSR HTML so the first paint is styled
-      // without a separate stylesheet round trip. Start keeps this tag through
-      // hydration (unlike a manual PROD && SSR <style> that the client wipes).
+      // Inline matched-route CSS so first paint is not blocked on a second
+      // stylesheet round-trip. CSS is already trimmed (~44KB) via narrow @source.
       build: { inlineCss: true },
     },
   },

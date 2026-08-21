@@ -1,4 +1,5 @@
-import { INCENTIVE_BENEFITS, INCENTIVES_INTRO } from "./data";
+import { INCENTIVE_BENEFITS } from "./data";
+import { INCENTIVES_INTRO } from "./brand";
 import { Reveal, SectionHeading, Stagger, StaggerItem } from "./Reveal";
 
 export function Incentives() {

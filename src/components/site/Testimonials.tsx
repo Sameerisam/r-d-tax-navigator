@@ -1,5 +1,5 @@
 import { Star, Quote } from "lucide-react";
-import { TESTIMONIALS } from "./data";
+import { TESTIMONIALS } from "./brand";
 import { SectionHeading, Stagger, StaggerItem } from "./Reveal";
 
 export function Testimonials() {

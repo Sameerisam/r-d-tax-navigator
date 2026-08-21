@@ -1,5 +1,5 @@
-import { ADDRESS, BRAND, KNOWS_ABOUT, SAME_AS } from "@/components/site/data";
-import { DIRECTORY_STATS, LAST_REVIEWED } from "@/components/site/resources";
+import { ADDRESS, BRAND, KNOWS_ABOUT, SAME_AS } from "@/components/site/brand";
+import { DIRECTORY_STATS, LAST_REVIEWED } from "@/components/site/directory-meta";
 
 type PageMetaInput = {
   title: string;

@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { Linkedin, Facebook, Mail, Phone, Sparkle } from "lucide-react";
-import { ADDRESS, BRAND, FOOTER_LINK_GROUPS } from "./data";
-import { LAST_REVIEWED_LABEL } from "./resources";
+import { ADDRESS, BRAND, FOOTER_LINK_GROUPS } from "./brand";
+import { LAST_REVIEWED_LABEL } from "./directory-meta";
 
 const isHashLink = (href: string) => href.includes("#");
 

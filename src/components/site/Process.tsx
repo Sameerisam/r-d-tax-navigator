@@ -1,4 +1,4 @@
-import { STEPS } from "./data";
+import { STEPS } from "./brand";
 import { SectionHeading, Stagger, StaggerItem } from "./Reveal";
 import { useInViewOnce } from "@/hooks/use-in-view";
 

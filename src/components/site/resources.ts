@@ -4,14 +4,18 @@
  * Every record cites an official source. Figures and deadlines are summarised
  * for research purposes and must be confirmed against the issuing agency
  * before a claim is filed.
+ *
+ * Review dates / shell-facing stats live in directory-meta.ts so the homepage
+ * shell does not pull this entire catalog into the critical JS path.
  */
 
-export const LAST_REVIEWED = "2026-08-20";
-export const LAST_REVIEWED_LABEL = "August 20, 2026";
-export const REVIEW_CADENCE = "Reviewed monthly by the BLMC research desk";
-
-export const SOURCE_DISCLAIMER =
-  "Details are summarised for research purposes. Always confirm current rates, eligibility, and deadlines with the official source before filing.";
+export {
+  DIRECTORY_STATS,
+  LAST_REVIEWED,
+  LAST_REVIEWED_LABEL,
+  REVIEW_CADENCE,
+  SOURCE_DISCLAIMER,
+} from "./directory-meta";
 
 export type Agency = {
   slug: string;
@@ -1304,11 +1308,3 @@ export function getAgency(slug: string) {
 export function getGuide(slug: string) {
   return GUIDES.find((item) => item.slug === slug);
 }
-
-export const DIRECTORY_STATS = {
-  incentives: INCENTIVES.length,
-  industries: INDUSTRIES.length,
-  agencies: AGENCIES.length,
-  guides: GUIDES.length,
-  glossary: GLOSSARY.length,
-};

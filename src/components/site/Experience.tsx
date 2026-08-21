@@ -1,4 +1,4 @@
-import { EXPERIENCE } from "./data";
+import { EXPERIENCE } from "./brand";
 import { Reveal, SectionHeading, Stagger, StaggerItem } from "./Reveal";
 
 export function Experience() {

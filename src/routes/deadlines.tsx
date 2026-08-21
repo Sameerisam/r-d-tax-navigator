@@ -3,7 +3,7 @@ import { CalendarClock } from "lucide-react";
 import { PageHero, PageLayout, ResourceCta, SourceNote } from "@/components/site/PageShell";
 import { Stagger, StaggerItem } from "@/components/site/Reveal";
 import { AGENCIES, DEADLINES, LAST_REVIEWED } from "@/components/site/resources";
-import { BRAND } from "@/components/site/data";
+import { BRAND } from "@/components/site/brand";
 import { breadcrumbSchema, itemListSchema, pageMeta } from "@/lib/seo";
 
 const path = "/deadlines";
